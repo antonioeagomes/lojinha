@@ -14,11 +14,19 @@ namespace Store.Catalogo.Domain
         {
             Nome = nome;
             Codigo = codigo;
+
+            Validar();
         }
 
         public override string ToString()
         {
             return $"{Nome} - {Codigo}";
+        }
+
+        public void Validar()
+        {
+            AssertionConcerns.ValidarSeVazio(Nome, "Nome da categoria não pode ser vazio.");
+            AssertionConcerns.ValidarSeMenorQue(Codigo, 0, "Código deve ser positivo.");
         }
     }
 }
