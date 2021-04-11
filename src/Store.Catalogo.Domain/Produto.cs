@@ -76,7 +76,7 @@ namespace Store.Catalogo.Domain
             AssertionConcerns.ValidarSeVazio(Descricao, "O campo Descricao do produto não pode estar vazio");
             AssertionConcerns.ValidarSeIgual(CategoriaId, Guid.Empty, "O campo CategoriaId do produto não pode estar vazio");
             AssertionConcerns.ValidarSeMenorQue(Valor, 0.1m, "O campo Valor do produto não pode se menor igual a 0");
-            // AssertionConcerns.ValidarSeVazio(Imagem, "O campo Imagem do produto não pode estar vazio");
+            AssertionConcerns.ValidarSeVazio(Imagem, "O campo Imagem do produto não pode estar vazio");
         }
     }
 }
