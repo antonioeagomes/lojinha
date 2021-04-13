@@ -32,6 +32,8 @@ namespace Store.Catalogo.Application.Dtos
         
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public CategoriaDto Categoria { get;  set; }
+
+        public IEnumerable<CategoriaDto> Categorias { get; set; }
         public decimal Altura { get;  set; }
         public decimal Largura { get; set; }
         public decimal Profundidade { get; set; }

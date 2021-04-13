@@ -16,6 +16,11 @@ namespace Store.Catalogo.Domain
         public Categoria Categoria { get; private set; }
         public Dimensoes Dimensoes { get; private set; }
 
+        protected Produto()
+        {
+
+        }
+
         public Produto(string nome, string descricao, bool ativo, decimal valor, 
             Guid categoriaId, string imagem, DateTime dataCadastro, Dimensoes dimensoes)
         {
