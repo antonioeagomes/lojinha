@@ -17,6 +17,11 @@ namespace Store.Core.DomainObjects
          * Alguns métodos serão sobrescritos
          */
 
+        public virtual bool IsValido()
+        {
+            return true;
+        }
+
         public override bool Equals(object obj)
         {
             var compareTo = obj as Entity;
