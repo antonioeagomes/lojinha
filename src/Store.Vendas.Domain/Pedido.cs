@@ -65,7 +65,7 @@ namespace Store.Vendas.Domain
                 }
             }
 
-            ValorTotal = valor < 0 ? 0 : valor;
+            ValorTotal = valor < 0 ? 0.01m : valor;
             Desconto = desconto;
         }
 

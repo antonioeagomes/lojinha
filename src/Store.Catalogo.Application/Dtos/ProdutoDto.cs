@@ -27,10 +27,10 @@ namespace Store.Catalogo.Application.Dtos
         public DateTime DataCadastro { get;  set; }
         
         public int QuantidadeEstoque { get;  set; }
-        
-        public Guid CategoriaId { get;  set; }
-        
+
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public Guid CategoriaId { get;  set; }        
+        
         public CategoriaDto Categoria { get;  set; }
 
         public IEnumerable<CategoriaDto> Categorias { get; set; }

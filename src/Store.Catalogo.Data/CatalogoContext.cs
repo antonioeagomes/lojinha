@@ -23,6 +23,14 @@ namespace Store.Catalogo.Data
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
+            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
+                e => e.GetProperties().Where(p => p.ClrType == typeof(decimal))))
+                property.SetColumnType("decimal(19,2)");
+
+            //modelBuilder.Entity<Produto>()
+            //    .Property(p => p.Valor)
+            //    .HasColumnType("decimal(19,2)");
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
         }
 
