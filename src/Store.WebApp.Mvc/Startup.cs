@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Store.Catalogo.Application.AutoMapper;
 using Store.Catalogo.Data;
+using Store.Vendas.Data;
 using Store.WebApp.Mvc.Extensions;
 
 namespace Store.WebApp.Mvc
@@ -26,6 +27,9 @@ namespace Store.WebApp.Mvc
             services.AddControllersWithViews();
 
             services.AddDbContext<CatalogoContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<VendasContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(typeof(MappingProfile).Assembly);

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Store.Catalogo.Domain\Store.Catalogo.Domain.csproj" />
     <ProjectReference Include="..\Store.Core\Store.Core.csproj" />
     <ProjectReference Include="..\Store.Vendas.Application\Store.Vendas.Application.csproj" />
+    <ProjectReference Include="..\Store.Vendas.Data\Store.Vendas.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

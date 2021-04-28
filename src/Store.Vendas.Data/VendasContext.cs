@@ -1,21 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Store.Catalogo.Domain;
 using Store.Core.Data;
+using Store.Core.Messages;
+using Store.Vendas.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.Catalogo.Data
+namespace Store.Vendas.Data
 {
-    public class CatalogoContext : DbContext, IUnitOfwork
+    public class VendasContext : DbContext, IUnitOfwork
     {
-        public CatalogoContext(DbContextOptions<CatalogoContext> options) : base(options) { }
+        public VendasContext(DbContextOptions<VendasContext> options) : base(options) { }
 
-        public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<PedidoItem> PedidoItems { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,12 +28,21 @@ namespace Store.Catalogo.Data
                 e => e.GetProperties().Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?))))
                 property.SetColumnType("decimal(19,2)");
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
+            modelBuilder.Ignore<Event>();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(VendasContext).Assembly);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) 
+                relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            modelBuilder.HasSequence<int>("Sequencia").StartsAt(1000).IncrementsBy(1);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public async Task<bool> Commit()
         {
-            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
+            foreach (var entry in ChangeTracker.Entries().Where(entry => 
+                entry.Entity.GetType().GetProperty("DataCadastro") != null))
             {
                 if (entry.State == EntityState.Added)
                 {

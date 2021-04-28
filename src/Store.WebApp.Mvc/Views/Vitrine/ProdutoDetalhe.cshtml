@@ -157,7 +157,7 @@
 
             <p>Apenas @Model.QuantidadeEstoque em estoque!</p>
             <p>@Model.Descricao</p>
-            <form method="post" asp-controller="Carrinho" asp-action="AdicionarItem">
+            <form method="post" asp-controller="Cart" asp-action="AdicionarItem">
 
                 <input type="hidden" id="Id" name="Id" value="@Model.Id" />
 
