@@ -5,7 +5,8 @@ using Store.Catalogo.Data;
 using Store.Catalogo.Data.Repository;
 using Store.Catalogo.Domain;
 using Store.Catalogo.Domain.Events;
-using Store.Core.Bus;
+using Store.Core.Communication.Mediator;
+using Store.Core.Messages.Common.Notifications;
 using Store.Vendas.Application.Commands;
 using Store.Vendas.Data;
 using Store.Vendas.Data.Repository;
@@ -21,8 +22,11 @@ namespace Store.WebApp.Mvc.Extensions
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-
+            // Communication
             services.AddScoped<IMediatRHandler, MediatRHandler>();
+
+            // Notifications
+            services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
             
             //Catalogo
             services.AddScoped<IProdutoRepository, ProdutoRepository>();

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.Core.DomainObjects
+namespace Store.Core.Messages.Common.DomainEvents
 {
     public class DomainEvent : Event
     {

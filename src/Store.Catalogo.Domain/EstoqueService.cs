@@ -1,5 +1,5 @@
 ﻿using Store.Catalogo.Domain.Events;
-using Store.Core.Bus;
+using Store.Core.Communication.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Text;
