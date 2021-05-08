@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Store.Catalogo.Domain;
 using Store.Core.Data;
+using Store.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace Store.Catalogo.Data
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?))))
                 property.SetColumnType("decimal(19,2)");
+
+            modelBuilder.Ignore<Event>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
         }

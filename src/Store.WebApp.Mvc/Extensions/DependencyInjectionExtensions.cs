@@ -8,6 +8,7 @@ using Store.Catalogo.Domain.Events;
 using Store.Core.Communication.Mediator;
 using Store.Core.Messages.Common.Notifications;
 using Store.Vendas.Application.Commands;
+using Store.Vendas.Application.Events;
 using Store.Vendas.Data;
 using Store.Vendas.Data.Repository;
 using Store.Vendas.Domain;
@@ -41,6 +42,10 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<VendasContext>();            
 
             services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
+
+            services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoAtualizadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoItemAdicionadoEvent>, PedidoEventHandler>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Store.Core.Communication.Mediator;
 using Store.Core.Data;
 using Store.Core.Messages;
 using Store.Vendas.Domain;
@@ -12,7 +13,11 @@ namespace Store.Vendas.Data
 {
     public class VendasContext : DbContext, IUnitOfwork
     {
-        public VendasContext(DbContextOptions<VendasContext> options) : base(options) { }
+        private readonly IMediatRHandler _mediatorHandler;
+        public VendasContext(DbContextOptions<VendasContext> options, IMediatRHandler mediatorHandler) : base(options) 
+        {
+            _mediatorHandler = mediatorHandler;
+        }
 
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<PedidoItem> PedidoItems { get; set; }
@@ -28,7 +33,8 @@ namespace Store.Vendas.Data
                 e => e.GetProperties().Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?))))
                 property.SetColumnType("decimal(19,2)");
 
-            modelBuilder.Ignore<Event>();
+            modelBuilder.Ignore<Event>(); // Ignora o Event
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(VendasContext).Assembly);
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) 
@@ -55,7 +61,12 @@ namespace Store.Vendas.Data
                 }
             }
 
-            return await base.SaveChangesAsync() > 0;
+            var sucesso = await base.SaveChangesAsync() > 0;
+
+            if(sucesso)
+                await _mediatorHandler.PublicarEventos(this);
+
+            return sucesso;
         }
     }
 }
