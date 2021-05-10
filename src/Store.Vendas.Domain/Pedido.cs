@@ -1,4 +1,5 @@
-﻿using Store.Core.DomainObjects;
+﻿using FluentValidation.Results;
+using Store.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,12 +76,18 @@ namespace Store.Vendas.Domain
             CalcularValorTotalDesconto();
         }
 
-        public void AplicarVoucher(Voucher voucher)
+        public ValidationResult AplicarVoucher(Voucher voucher)
         {
+            var validation = voucher.ValidarAplicabilidade();
+
+            if (!validation.IsValid) return validation;
+
             Voucher = voucher;
             VoucherId = voucher.Id;
             VoucherUtilizado = true;
             CalcularValorPedido();
+
+            return validation;
         }
 
         public bool PedidoItemExiste(PedidoItem item)
