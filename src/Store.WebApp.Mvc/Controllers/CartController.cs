@@ -5,6 +5,7 @@ using Store.Core.Communication.Mediator;
 using Store.Core.Messages.Common.Notifications;
 using Store.Vendas.Application.Commands;
 using Store.Vendas.Application.Queries;
+using Store.Vendas.Application.Queries.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,6 +112,31 @@ namespace Store.WebApp.Mvc.Controllers
             }
 
             return View("Index", await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
+        }
+
+        [Route("resumo-compra")]
+        public async Task<IActionResult> ResumoCompra()
+        {
+            return View(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
+        }
+
+        [HttpPost]
+        [Route("iniciar-pedido")]
+        public async Task<IActionResult> IniciarPedido(CarrinhoDTO carrinhoDTO)
+        {
+            var cart = await _pedidoQueries.ObterCarrinhoCliente(ClienteId);
+
+            var command = new IniciarPedidoCommand(ClienteId, cart.PedidoId, cart.ValorTotal, cart.Pagamento.NomeCartao,
+                cart.Pagamento.NumeroCartao, cart.Pagamento.ExpiracaoCartao, cart.Pagamento.CvvCartao);
+
+            await _mediatRHandler.EnviarComando(command);
+
+            if (IsOperacaoValida())
+            {
+                return RedirectToAction("Index", "Pedido");
+            }
+
+            return View("ResumoCompra", cart);
         }
 
     }

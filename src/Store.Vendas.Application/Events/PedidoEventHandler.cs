@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Store.Core.Messages.Common.IntegrationEvents;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,8 +10,10 @@ namespace Store.Vendas.Application.Events
 {
     public class PedidoEventHandler : INotificationHandler<PedidoRascunhoIniciadoEvent>,
         INotificationHandler<PedidoAtualizadoEvent>,
-        INotificationHandler<PedidoItemAdicionadoEvent>
+        INotificationHandler<PedidoItemAdicionadoEvent>,
+        INotificationHandler<PedidoEstoqueRejeitadoEvent>
     {
+        
         public Task Handle(PedidoRascunhoIniciadoEvent notification, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
@@ -22,6 +25,11 @@ namespace Store.Vendas.Application.Events
         }
 
         public Task Handle(PedidoItemAdicionadoEvent notification, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(PedidoEstoqueRejeitadoEvent notification, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
