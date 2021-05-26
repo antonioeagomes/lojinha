@@ -34,7 +34,7 @@ namespace Store.WebApp.Mvc.Controllers
         [Route("meu-carrinho")]
         public async Task<IActionResult> Index()
         {
-            return View(await _pedidoQueries.ObterPedidosCliente(ClienteId));
+            return View(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
         }
 
         [HttpPost]

@@ -1,12 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Store.Catalogo.Application.AutoMapper;
 using Store.Catalogo.Data;
+using Store.Pagamentos.Data;
 using Store.Vendas.Data;
 using Store.WebApp.Mvc.Extensions;
 
@@ -32,9 +34,12 @@ namespace Store.WebApp.Mvc
             services.AddDbContext<VendasContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<PagamentoContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddMediatR(typeof(Startup));
-
+            
             services.RegisterServices();
 
         }
