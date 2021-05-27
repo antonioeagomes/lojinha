@@ -7,10 +7,13 @@ namespace Store.Pagamentos.Business
 {
     public class Pagamento : Entity, IAggregateRoot
     {
-        public Guid PedidoId { get; private set; }
-        public string Status { get; private set; }
-        public decimal Valor { get; private set; }
-        public string NomeCartao { get; private set; }
+        public Guid PedidoId { get; set; }
+        public string Status { get; set; }
+        public decimal Valor { get; set; }
+        public string NomeCartao { get; set; }
+        public string NumeroCartao { get; set; }
+        public string ExpiracaoCartao { get; set; }
+        public string CvvCartao { get; set; }
         public Transacao Transacao { get; set; }
     }
 }

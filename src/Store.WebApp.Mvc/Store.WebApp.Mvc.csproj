@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Store.Catalogo.Data\Store.Catalogo.Data.csproj" />
     <ProjectReference Include="..\Store.Catalogo.Domain\Store.Catalogo.Domain.csproj" />
     <ProjectReference Include="..\Store.Core\Store.Core.csproj" />
+    <ProjectReference Include="..\Store.Pagamentos.AntiCorruption\Store.Pagamentos.AntiCorruption.csproj" />
     <ProjectReference Include="..\Store.Pagamentos.Data\Store.Pagamentos.Data.csproj" />
     <ProjectReference Include="..\Store.Vendas.Application\Store.Vendas.Application.csproj" />
     <ProjectReference Include="..\Store.Vendas.Data\Store.Vendas.Data.csproj" />

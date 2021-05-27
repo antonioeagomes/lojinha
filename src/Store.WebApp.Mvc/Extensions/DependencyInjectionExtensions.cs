@@ -7,16 +7,16 @@ using Store.Catalogo.Domain;
 using Store.Catalogo.Domain.Events;
 using Store.Core.Communication.Mediator;
 using Store.Core.Messages.Common.Notifications;
+using Store.Pagamentos.AntiCorruption;
+using Store.Pagamentos.Business;
+using Store.Pagamentos.Data;
+using Store.Pagamentos.Data.Repository;
 using Store.Vendas.Application.Commands;
 using Store.Vendas.Application.Events;
 using Store.Vendas.Application.Queries;
 using Store.Vendas.Data;
 using Store.Vendas.Data.Repository;
 using Store.Vendas.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Store.WebApp.Mvc.Extensions
 {
@@ -52,6 +52,14 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
             services.AddScoped<INotificationHandler<PedidoAtualizadoEvent>, PedidoEventHandler>();
             services.AddScoped<INotificationHandler<PedidoItemAdicionadoEvent>, PedidoEventHandler>();
+
+            // Pagamento
+            services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+            services.AddScoped<IPagamentoService, PagamentoService>();
+            services.AddScoped<IPagamentoCartaoCreditoFacade, PagamentoCartaoCreditoFacade>();
+            services.AddScoped<IConfigurationManager, ConfigurationManager>();
+            services.AddScoped<IPayPalGateway, PayPalGateway>();
+            services.AddScoped<PagamentoContext>();
         }
     }
 }

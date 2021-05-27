@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Store.Pagamentos.Business\Store.Pagamentos.Business.csproj" />
+  </ItemGroup>
+
 </Project>
