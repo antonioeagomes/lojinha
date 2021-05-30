@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace Store.Catalogo.Domain.Events
 {
     public class ProdutoEventHandler : INotificationHandler<ProdutoAbaixoEstoqueEvent>,
-            INotificationHandler<PedidoIniciadoEvent>
+            INotificationHandler<PedidoIniciadoEvent>,
+            INotificationHandler<PedidoProcessamentoCanceladoEvent>
 
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -45,6 +46,11 @@ namespace Store.Catalogo.Domain.Events
             {
                 await _mediatorHandler.PublicarEvento(new PedidoEstoqueRejeitadoEvent(notification.ClienteId, notification.PedidoId));
             }
+        }
+
+        public async Task Handle(PedidoProcessamentoCanceladoEvent notification, CancellationToken cancellationToken)
+        {
+            await _estoqueService.ReporEstoqueListaProdutos(notification.ListaProdutosPedido);
         }
     }
 }

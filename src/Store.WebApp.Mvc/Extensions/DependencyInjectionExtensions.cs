@@ -6,9 +6,11 @@ using Store.Catalogo.Data.Repository;
 using Store.Catalogo.Domain;
 using Store.Catalogo.Domain.Events;
 using Store.Core.Communication.Mediator;
+using Store.Core.Messages.Common.IntegrationEvents;
 using Store.Core.Messages.Common.Notifications;
 using Store.Pagamentos.AntiCorruption;
 using Store.Pagamentos.Business;
+using Store.Pagamentos.Business.Events;
 using Store.Pagamentos.Data;
 using Store.Pagamentos.Data.Repository;
 using Store.Vendas.Application.Commands;
@@ -37,6 +39,8 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<CatalogoContext>();
 
             services.AddScoped<INotificationHandler<ProdutoAbaixoEstoqueEvent>, ProdutoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoIniciadoEvent>, ProdutoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoProcessamentoCanceladoEvent>, ProdutoEventHandler>();
 
             //Vendas
             services.AddScoped<IPedidoRepository, PedidoRepository>();
@@ -48,10 +52,16 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<IRequestHandler<RemoverItemPedidoCommand, bool>, PedidoCommandHandler>();
             services.AddScoped<IRequestHandler<AplicarVoucherPedidoCommand, bool>, PedidoCommandHandler>();
             services.AddScoped<IRequestHandler<IniciarPedidoCommand, bool>, PedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelarProcessamentoPedidoCommand, bool>, PedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelarProcessamentoPedidoEstornarEstoque, bool>, PedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<FinalizarPedidoCommand, bool>, PedidoCommandHandler>();
 
             services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
             services.AddScoped<INotificationHandler<PedidoAtualizadoEvent>, PedidoEventHandler>();
             services.AddScoped<INotificationHandler<PedidoItemAdicionadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PagamentoRealizadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PagamentoRecusadoEvent>, PedidoEventHandler>();
+
 
             // Pagamento
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
@@ -59,6 +69,9 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<IPagamentoCartaoCreditoFacade, PagamentoCartaoCreditoFacade>();
             services.AddScoped<IConfigurationManager, ConfigurationManager>();
             services.AddScoped<IPayPalGateway, PayPalGateway>();
+
+            services.AddScoped<INotificationHandler<PedidoEstoqueConfirmadoEvent>, PagamentoEventHandler>();
+
             services.AddScoped<PagamentoContext>();
         }
     }
