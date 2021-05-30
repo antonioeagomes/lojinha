@@ -30,7 +30,7 @@ namespace Store.Pagamentos.AntiCorruption
                 PedidoId = pedido.Id,
                 Total = pedido.Valor,
                 PagamentoId = pagamento.Id,
-                StatusTransacao = pagamentoResult ? StatusTransacao.Pago : StatusTransacao.Recusado
+                StatusTransacao = StatusTransacao.Pago // pagamentoResult ? StatusTransacao.Pago : StatusTransacao.Recusado
             };
             
             return transacao;

@@ -126,8 +126,8 @@ namespace Store.WebApp.Mvc.Controllers
         {
             var cart = await _pedidoQueries.ObterCarrinhoCliente(ClienteId);
 
-            var command = new IniciarPedidoCommand(ClienteId, cart.PedidoId, cart.ValorTotal, cart.Pagamento.NomeCartao,
-                cart.Pagamento.NumeroCartao, cart.Pagamento.ExpiracaoCartao, cart.Pagamento.CvvCartao);
+            var command = new IniciarPedidoCommand(ClienteId, cart.PedidoId, cart.ValorTotal, carrinhoDTO.Pagamento.NomeCartao,
+                carrinhoDTO.Pagamento.NumeroCartao, carrinhoDTO.Pagamento.ExpiracaoCartao, carrinhoDTO.Pagamento.CvvCartao);
 
             await _mediatRHandler.EnviarComando(command);
 
