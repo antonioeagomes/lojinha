@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EventSourcing;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Store.Catalogo.Application.Services;
 using Store.Catalogo.Data;
@@ -31,7 +32,10 @@ namespace Store.WebApp.Mvc.Extensions
 
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
-            
+
+            // Event Sourcing
+            services.AddSingleton<IEventStoreService, EventStoreService>();
+
             //Catalogo
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IProdutoAppService, ProdutoAppService>();
@@ -73,6 +77,7 @@ namespace Store.WebApp.Mvc.Extensions
             services.AddScoped<INotificationHandler<PedidoEstoqueConfirmadoEvent>, PagamentoEventHandler>();
 
             services.AddScoped<PagamentoContext>();
+            
         }
     }
 }

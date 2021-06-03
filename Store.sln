@@ -45,6 +45,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Pagamentos.AntiCorrup
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Pagamentos.Data", "src\Store.Pagamentos.Data\Store.Pagamentos.Data.csproj", "{F07CBDBB-AE45-4DC7-A5F4-FA96F94F1EE5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{BAF2C6B0-27E3-43D1-B6DB-E509CA0CDE0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourcing", "src\EventSourcing\EventSourcing.csproj", "{622C3667-894E-4840-9287-2F9A6393C02B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,10 @@ Global
 		{F07CBDBB-AE45-4DC7-A5F4-FA96F94F1EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F07CBDBB-AE45-4DC7-A5F4-FA96F94F1EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F07CBDBB-AE45-4DC7-A5F4-FA96F94F1EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{622C3667-894E-4840-9287-2F9A6393C02B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622C3667-894E-4840-9287-2F9A6393C02B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622C3667-894E-4840-9287-2F9A6393C02B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622C3667-894E-4840-9287-2F9A6393C02B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +131,7 @@ Global
 		{E9E673F8-5F5B-4A93-A36B-FD7305ABC072} = {83F1AF80-7819-481E-8C4F-D7BD596A6400}
 		{3DBE75A7-CAD9-40A1-8D17-BF4B672EE100} = {83F1AF80-7819-481E-8C4F-D7BD596A6400}
 		{F07CBDBB-AE45-4DC7-A5F4-FA96F94F1EE5} = {83F1AF80-7819-481E-8C4F-D7BD596A6400}
+		{622C3667-894E-4840-9287-2F9A6393C02B} = {BAF2C6B0-27E3-43D1-B6DB-E509CA0CDE0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48A99337-DE5E-4195-A77E-769122D838AD}
