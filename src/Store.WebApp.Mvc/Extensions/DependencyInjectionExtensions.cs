@@ -7,6 +7,7 @@ using Store.Catalogo.Data.Repository;
 using Store.Catalogo.Domain;
 using Store.Catalogo.Domain.Events;
 using Store.Core.Communication.Mediator;
+using Store.Core.Data.EventSourcing;
 using Store.Core.Messages.Common.IntegrationEvents;
 using Store.Core.Messages.Common.Notifications;
 using Store.Pagamentos.AntiCorruption;
@@ -35,6 +36,8 @@ namespace Store.WebApp.Mvc.Extensions
 
             // Event Sourcing
             services.AddSingleton<IEventStoreService, EventStoreService>();
+         
+            services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
 
             //Catalogo
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
