@@ -1,4 +1,5 @@
-﻿using Store.Core.Messages;
+﻿using FluentValidation.Results;
+using Store.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Store.Core.DomainObjects
         private List<Event> _notificacoes;
         public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
 
+        public ValidationResult ValidationResult { get; protected set; }
 
         protected Entity()
         {

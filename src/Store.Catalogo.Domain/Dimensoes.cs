@@ -14,9 +14,9 @@ namespace Store.Catalogo.Domain
 
         public Dimensoes(decimal altura, decimal largura, decimal profundidade)
         {
-            AssertionConcerns.ValidarSeMenorQue(altura, 0.1m, "A altura não pode ser menor ou igual a 0");
-            AssertionConcerns.ValidarSeMenorQue(largura, 0.1m, "A altura não pode ser menor ou igual a 0");
-            AssertionConcerns.ValidarSeMenorQue(profundidade, 0.1m, "A altura não pode ser menor ou igual a 0");
+            AssertionConcerns.ValidarSeMenorQue(altura, 0.01m, "A altura não pode ser menor ou igual a 0");
+            AssertionConcerns.ValidarSeMenorQue(largura, 0.01m, "A altura não pode ser menor ou igual a 0");
+            AssertionConcerns.ValidarSeMenorQue(profundidade, 0.01m, "A altura não pode ser menor ou igual a 0");
 
             Altura = altura;
             Largura = largura;

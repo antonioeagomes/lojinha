@@ -8,7 +8,8 @@ namespace Store.Catalogo.Domain.Tests
 {
     public class ProdutoTests
     {
-        [Fact]
+        [Fact (DisplayName ="Validações devem retornar exceptions")]
+        [Trait("Catálogo", "Testes na entidade Produto")]
         public void Produto_Validar_VilidacoesDevemRetornarExceptions()
         {
             // Arrange & Act & Assert
@@ -24,12 +25,6 @@ namespace Store.Catalogo.Domain.Tests
             );
 
             Assert.Equal("O campo Descricao do produto não pode estar vazio", ex.Message);
-
-            ex = Assert.Throws<DomainException>(() =>
-                new Produto("Nome", "Descricao", false, 0, Guid.NewGuid(), "Imagem", DateTime.Now, new Dimensoes(1, 1, 1))
-            );
-
-            Assert.Equal("O campo Valor do produto não pode se menor igual a 0", ex.Message);
 
             ex = Assert.Throws<DomainException>(() =>
                 new Produto("Nome", "Descricao", false, 100, Guid.Empty, "Imagem", DateTime.Now, new Dimensoes(1, 1, 1))

@@ -1,4 +1,5 @@
-﻿using Store.Core.DomainObjects;
+﻿using FluentValidation;
+using Store.Core.DomainObjects;
 using System;
 
 namespace Store.Catalogo.Domain
@@ -75,13 +76,33 @@ namespace Store.Catalogo.Domain
 
         public bool PossuiEstoque(int quantidade) => QuantidadeEstoque >= Math.Abs(quantidade);
 
+        public override bool IsValido()
+        {
+            ValidationResult = new ProdutoValidations().Validate(this);
+            return ValidationResult.IsValid;
+        }
+
         public void Validar()
         {
             AssertionConcerns.ValidarSeVazio(Nome, "O campo Nome do produto não pode estar vazio");
             AssertionConcerns.ValidarSeVazio(Descricao, "O campo Descricao do produto não pode estar vazio");
             AssertionConcerns.ValidarSeIgual(CategoriaId, Guid.Empty, "O campo CategoriaId do produto não pode estar vazio");
-            AssertionConcerns.ValidarSeMenorQue(Valor, 0.1m, "O campo Valor do produto não pode se menor igual a 0");
+            // AssertionConcerns.ValidarSeMenorQue(Valor, 0.1m, "O campo Valor do produto não pode se menor igual a 0");
             AssertionConcerns.ValidarSeVazio(Imagem, "O campo Imagem do produto não pode estar vazio");
         }
     }
+
+    public class ProdutoValidations : AbstractValidator<Produto>
+    {
+        public ProdutoValidations()
+        {
+            RuleFor(p => p.Nome)
+                .NotEmpty().WithMessage("Não pode ser vazio")
+                .Length(2, 150).WithMessage("O nome deve ter entre 2 e 150 caractreres");
+
+            RuleFor(p => p.Valor)
+                .GreaterThan(0.01m).WithMessage("O produto deve possuir valor maior que zero!");
+        }
+    }
+
 }
