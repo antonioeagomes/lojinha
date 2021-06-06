@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bogus;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -34,6 +35,23 @@ namespace Store.Catalogo.Domain.Tests
                 "picture01.jpg",
                 DateTime.Now,
                 new Dimensoes(0.65m, 0.35m, 0.03m));
+        }
+
+        public Produto CriarProdutoUsandoBogus()
+        {
+            var prd = new Faker<Produto>("pt_BR")
+                .CustomInstantiator(f => new Produto(
+                    f.Commerce.Product(),
+                    f.Commerce.ProductDescription(),
+                    true,
+                    Convert.ToDecimal(f.Commerce.Price(0.01m, 1000m, 2)),
+                    Guid.NewGuid(),
+                    f.Image.PicsumUrl(),
+                    f.Date.Past(),
+                    new Dimensoes(1,1,1)                    
+                    ));
+            
+            return prd;
         }
 
         public void Dispose()

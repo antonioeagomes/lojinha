@@ -20,7 +20,7 @@ namespace Store.Catalogo.Domain.Tests
         public void Produto_NovoProduto_DeveSerValido()
         {
             // Arrange
-            var produto = _produtoTestsFixture.CriarProdutoValido();
+            var produto = _produtoTestsFixture.CriarProdutoUsandoBogus();
             // Act
             var result = produto.IsValido();
 
