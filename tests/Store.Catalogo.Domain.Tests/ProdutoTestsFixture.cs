@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Store.Catalogo.Application.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,6 +52,24 @@ namespace Store.Catalogo.Domain.Tests
                     new Dimensoes(1,1,1)                    
                     ));
             
+            return prd;
+        }
+
+        public ProdutoDto CriarProdutoDtoUsandoBogus()
+        {
+            var prd = new Faker<ProdutoDto>("pt_BR")
+                .RuleFor(p => p.Nome, f => f.Commerce.Product())
+                .RuleFor(p => p.Descricao, f => f.Commerce.ProductDescription())
+                .RuleFor(p => p.Ativo, f => f.Random.Bool())
+                .RuleFor(p => p.Valor, f => Convert.ToDecimal(f.Commerce.Price(0.01m, 1000m, 2)))
+                .RuleFor(p => p.CategoriaId, f => f.Random.Uuid())
+                .RuleFor(p => p.Imagem, f => f.Image.PicsumUrl())
+                .RuleFor(p => p.DataCadastro, f => f.Date.Past())
+                .RuleFor(p => p.QuantidadeEstoque, f => f.Random.Int(1, 99))
+                .RuleFor(p => p.Altura, f => f.Random.Decimal(0.1m, 100m))
+                .RuleFor(p => p.Largura, f => f.Random.Decimal(0.1m, 100m))
+                .RuleFor(p => p.Profundidade, f => f.Random.Decimal(0.1m, 100m));
+
             return prd;
         }
 
