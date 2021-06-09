@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
+using Moq.AutoMock;
 using Store.Catalogo.Application.AutoMapper;
 using Store.Catalogo.Application.Dtos;
 using Store.Catalogo.Application.Services;
@@ -93,6 +94,24 @@ namespace Store.Catalogo.Domain.Tests
             
 
         }
-    
+
+
+        [Fact(DisplayName = "Adicionar Produto com sucesso")]
+        [Trait("Catálogo", "ProdutoService Auto Mock")]
+        public void Produto_ObterTodos_DeveRetornarTodosProdutos()
+        {
+            var produtos = _produtoTestsFixture.CriarProdutosDiversificados();
+            var mocker = new AutoMocker();
+
+            mocker.GetMock<IProdutoRepository>().Setup(p => p.ObterTodos().Result)
+                    .Returns(produtos);
+
+            var produtoService = mocker.CreateInstance<ProdutoAppService>();
+
+            var result = produtoService.ObterTodos().Result;
+
+            Assert.IsAssignableFrom<IEnumerable<ProdutoDto>>(result);
+
+        }
     }
 }

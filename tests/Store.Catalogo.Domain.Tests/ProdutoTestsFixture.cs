@@ -2,6 +2,7 @@
 using Store.Catalogo.Application.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -16,14 +17,16 @@ namespace Store.Catalogo.Domain.Tests
     {
         public Produto CriarProdutoValido()
         {
-            return new Produto("Camiseta stah uoh",
-                "Camiseta com o Darth Vader falando: Está o ó",
-                true,
-                75.90m,
-                Guid.NewGuid(),
-                "picture01.jpg",
-                DateTime.Now,
-                new Dimensoes(0.65m, 0.35m, 0.03m));
+            return CriarProdutos(1, true).FirstOrDefault();
+        }
+
+        public IEnumerable<Produto> CriarProdutosDiversificados()
+        {
+            var produtos = new List<Produto>();
+            produtos.AddRange(CriarProdutos(50, true));
+            produtos.AddRange(CriarProdutos(50, false));
+
+            return produtos;
         }
 
         public Produto CriarProdutoInvalido()
@@ -53,6 +56,23 @@ namespace Store.Catalogo.Domain.Tests
                     ));
             
             return prd;
+        }
+
+        public ICollection<Produto> CriarProdutos(int quantidade, bool ativo)
+        {
+            var prd = new Faker<Produto>("pt_BR")
+                .CustomInstantiator(f => new Produto(
+                    f.Commerce.Product(),
+                    f.Commerce.ProductDescription(),
+                    ativo,
+                    Convert.ToDecimal(f.Commerce.Price(0.01m, 1000m, 2)),
+                    Guid.NewGuid(),
+                    f.Image.PicsumUrl(),
+                    f.Date.Past(),
+                    new Dimensoes(f.Random.Decimal(0.1m, 100m), f.Random.Decimal(0.1m, 100m), f.Random.Decimal(0.1m, 100m))
+                    ));
+
+            return prd.Generate(quantidade);
         }
 
         public ProdutoDto CriarProdutoDtoUsandoBogus()
