@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -24,6 +25,8 @@ namespace Store.Catalogo.Domain.Tests
             var result = produto.IsValido();
 
             //Assert
+            result.Should().BeFalse();
+            produto.ValidationResult.Errors.Should().HaveCountGreaterThan(0);
             Assert.False(result);
             Assert.NotEmpty(produto.ValidationResult.Errors);
         }

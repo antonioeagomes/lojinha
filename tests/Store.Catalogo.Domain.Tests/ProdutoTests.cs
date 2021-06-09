@@ -8,9 +8,11 @@ using Store.Core.Data;
 using Store.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Store.Catalogo.Domain.Tests
 {
@@ -20,10 +22,14 @@ namespace Store.Catalogo.Domain.Tests
         readonly ProdutoTestsFixture _produtoTestsFixture;
 
         private static IMapper _mapper;
-        public ProdutoTests(ProdutoTestsFixture produtoTestsFixture)
+
+        private readonly ITestOutputHelper _outputHelper;
+        public ProdutoTests(ProdutoTestsFixture produtoTestsFixture, ITestOutputHelper outputHelper)
         {
             _produtoTestsFixture = produtoTestsFixture;
-            
+            _outputHelper = outputHelper;
+
+
             if (_mapper == null)
             {
                 var mappingConfig = new MapperConfiguration(mc =>
@@ -92,25 +98,27 @@ namespace Store.Catalogo.Domain.Tests
             Assert.True(produto.IsValido());
             produtoRepository.Verify(r => r.Adicionar(produto), Times.Once); // Verifica se este método foi chamado
             
-
+            _outputHelper.WriteLine($"Test output helper");
         }
 
 
-        [Fact(DisplayName = "Adicionar Produto com sucesso")]
+        [Fact(DisplayName = "Adicionar Produto com sucesso", Skip = "Pulando este teste")]
         [Trait("Catálogo", "ProdutoService Auto Mock")]
-        public void Produto_ObterTodos_DeveRetornarTodosProdutos()
+        public async Task Produto_ObterTodos_DeveRetornarTodosProdutosAsync()
         {
             var produtos = _produtoTestsFixture.CriarProdutosDiversificados();
             var mocker = new AutoMocker();
 
-            mocker.GetMock<IProdutoRepository>().Setup(p => p.ObterTodos().Result)
-                    .Returns(produtos);
+            mocker.GetMock<IProdutoRepository>().Setup(p => p.UnitOfwork).Returns(new Mock<IUnitOfwork>().Object);
+            mocker.GetMock<IProdutoRepository>().Setup(p => p.ObterTodos())
+                    .Returns(Task.FromResult(produtos));
 
             var produtoService = mocker.CreateInstance<ProdutoAppService>();
 
-            var result = produtoService.ObterTodos().Result;
+            var result = await produtoService.ObterTodos();
 
             Assert.IsAssignableFrom<IEnumerable<ProdutoDto>>(result);
+            // Assert.Equal(produtos.Count(), result.Count());
 
         }
     }
