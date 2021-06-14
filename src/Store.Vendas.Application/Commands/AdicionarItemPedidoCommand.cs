@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Store.Core.Messages;
+using Store.Vendas.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,15 +46,15 @@ namespace Store.Vendas.Application.Commands
 
             RuleFor(c => c.ProdutoNome)
                 .NotEmpty()
-                .WithMessage("Id do Cliente inválido.");
+                .WithMessage("Produto deve ter uma descrição.");
 
             RuleFor(c => c.Quantidade)
                 .GreaterThan(0)
                 .WithMessage("Deve adicionar pelo menos uma unidade");
             
             RuleFor(c => c.Quantidade)
-                .LessThan(16)
-                .WithMessage("Não vendemos no atacado. Quantidade máxima 15 itens");
+                .LessThanOrEqualTo(Pedido.MAX_UNIDADES_ITEM)
+                .WithMessage($"Não vendemos no atacado. Quantidade máxima {Pedido.MAX_UNIDADES_ITEM} itens");
 
             RuleFor(c => c.ValorUnitario)
                 .GreaterThan(0)
