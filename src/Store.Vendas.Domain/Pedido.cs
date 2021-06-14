@@ -9,6 +9,8 @@ namespace Store.Vendas.Domain
     /* Objetos de Domínio */
     public class Pedido : Entity, IAggregateRoot
     {
+        public static int MIN_UNIDADES_ITEM => 1;
+        public static int MAX_UNIDADES_ITEM => 15;
         public int Codigo { get; private set; }
         public Guid ClienteId { get; private set; }
         public Guid? VoucherId { get; set; }
@@ -99,6 +101,8 @@ namespace Store.Vendas.Domain
         {
             if (!item.IsValido()) return;
 
+            ValidarQuantidadeItemPermitida(item);
+
             item.AssociarPedido(Id);
 
             if (PedidoItemExiste(item))
@@ -115,6 +119,19 @@ namespace Store.Vendas.Domain
             _pedidoItems.Add(item);
 
             CalcularValorPedido();
+        }
+
+        private void ValidarQuantidadeItemPermitida(PedidoItem item)
+        {
+            var quantidadeItems = item.Quantidade;
+
+            if(PedidoItemExiste(item))
+            {
+                var itemExistente = _pedidoItems.FirstOrDefault(p => p.ProdutoId == item.ProdutoId);
+                quantidadeItems += itemExistente.Quantidade;
+            }
+
+            if(quantidadeItems > MAX_UNIDADES_ITEM) throw new DomainException($"Máximo de {Pedido.MAX_UNIDADES_ITEM} unidades por produto");
         }
 
         public void RemoverItem(PedidoItem item)
