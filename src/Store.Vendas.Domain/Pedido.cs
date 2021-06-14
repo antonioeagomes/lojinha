@@ -68,7 +68,7 @@ namespace Store.Vendas.Domain
                 }
             }
 
-            ValorTotal = valor < 0 ? 0.01m : valor;
+            ValorTotal = valor <= 0 ? 0.01m : valor;
             Desconto = desconto;
         }
 
@@ -138,11 +138,9 @@ namespace Store.Vendas.Domain
         {
             if (!item.IsValido()) return;
 
-            var itemExistente = _pedidoItems.FirstOrDefault(p => p.ProdutoId == item.ProdutoId);
-
-            if (itemExistente == null) throw new DomainException("Item não pertence ao pedido");
-
-            _pedidoItems.Remove(itemExistente);
+            ValidarItemExistente(item);
+            
+            _pedidoItems.Remove(item);
 
             CalcularValorPedido();
         }
@@ -151,16 +149,22 @@ namespace Store.Vendas.Domain
         {
             if (!item.IsValido()) return;
 
+            ValidarQuantidadeItemPermitida(item);
+            ValidarItemExistente(item);
+            
             item.AssociarPedido(Id);
 
             var itemExistente = _pedidoItems.FirstOrDefault(p => p.ProdutoId == item.ProdutoId);
-
-            if (itemExistente == null) throw new DomainException("Item não pertence ao pedido");
-
+            
             _pedidoItems.Remove(itemExistente);
             _pedidoItems.Add(item);
 
             CalcularValorPedido();
+        }
+
+        public void ValidarItemExistente(PedidoItem item)
+        {
+            if (!PedidoItemExiste(item)) throw new DomainException("Item não pertence ao pedido");
         }
 
         public void AtualizarUnidades(PedidoItem item, int unidade)
