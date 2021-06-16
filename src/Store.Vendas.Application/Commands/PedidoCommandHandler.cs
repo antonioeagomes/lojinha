@@ -16,7 +16,8 @@ using System.Threading.Tasks;
 
 namespace Store.Vendas.Application.Commands
 {
-    public class PedidoCommandHandler : IRequestHandler<AdicionarItemPedidoCommand, bool>,
+    public class PedidoCommandHandler : 
+            IRequestHandler<AdicionarItemPedidoCommand, bool>,
             IRequestHandler<AtualizarItemPedidoCommand, bool>,
             IRequestHandler<RemoverItemPedidoCommand, bool>,
             IRequestHandler<AplicarVoucherPedidoCommand, bool>,
@@ -58,18 +59,21 @@ namespace Store.Vendas.Application.Commands
                 if (pedidoExistente)
                 {
                     _pedidoRepository.AtualizarItem(pedido.PedidoItems.FirstOrDefault(p => p.ProdutoId == pedidoItem.ProdutoId));
+                    
                 }
                 else
                 {
                     _pedidoRepository.AdicionarItem(pedidoItem);
                 }
 
+                _pedidoRepository.Atualizar(pedido);
+
                 pedido.AdicionarEvento(new PedidoAtualizadoEvent(pedido.ClienteId, pedido.Id, pedido.ValorTotal));
             }
 
             pedido.AdicionarEvento(new PedidoItemAdicionadoEvent(pedido.ClienteId, pedido.Id,
                     message.ProdutoId, message.ValorUnitario, message.Quantidade));
-
+            
             return await _pedidoRepository.UnitOfwork.Commit();
         }
 
